@@ -69,7 +69,8 @@ public class PreparedStatementBinder implements StatementBinder {
 
     int index = 1;
     if (isDelete) {
-      bindKeyFields(record, index);
+      index = bindKeyFields(record, index);
+      bindNonKeyFields(record, valueStruct, index);
     } else {
       switch (insertMode) {
         case INSERT:
@@ -139,8 +140,12 @@ public class PreparedStatementBinder implements StatementBinder {
       int index
   ) throws SQLException {
     for (final String fieldName : fieldsMetadata.nonKeyFieldNames) {
-      final Field field = record.valueSchema().field(fieldName);
-      bindField(index++, field.schema(), valueStruct.get(field));
+      if (isNull(valueStruct)) {
+        bindField(index++, null, null);
+      } else {
+        final Field field = record.valueSchema().field(fieldName);
+        bindField(index++, field.schema(), valueStruct.get(field));
+      }
     }
     return index;
   }
