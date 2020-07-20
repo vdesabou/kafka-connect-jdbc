@@ -554,7 +554,7 @@ public interface DatabaseDialect extends ConnectionProvider {
      * @param record the sink record with values to be bound into the statement; never null
      * @throws SQLException if there is a problem binding values into the statement
      */
-    void bindRecord(SinkRecord record) throws SQLException;
+    void bindRecord(SinkRecord record, boolean deleteEnabled) throws SQLException;
   }
 
   /**

@@ -123,7 +123,7 @@ public class PreparedStatementBinderTest {
         JdbcSinkConfig.InsertMode.INSERT
     );
 
-    binder.bindRecord(new SinkRecord("topic", 0, null, null, valueSchema, valueStruct, 0));
+    binder.bindRecord(new SinkRecord("topic", 0, null, null, valueSchema, valueStruct, 0), false);
 
     int index = 1;
     // key field first
@@ -185,7 +185,7 @@ public class PreparedStatementBinderTest {
                 fieldsMetadata, JdbcSinkConfig.InsertMode.UPSERT
         );
 
-        binder.bindRecord(new SinkRecord("topic", 0, null, null, valueSchema, valueStruct, 0));
+        binder.bindRecord(new SinkRecord("topic", 0, null, null, valueSchema, valueStruct, 0), false);
 
         int index = 1;
         // key field first
@@ -224,7 +224,7 @@ public class PreparedStatementBinderTest {
                 fieldsMetadata, JdbcSinkConfig.InsertMode.UPDATE
         );
 
-        binder.bindRecord(new SinkRecord("topic", 0, null, null, valueSchema, valueStruct, 0));
+        binder.bindRecord(new SinkRecord("topic", 0, null, null, valueSchema, valueStruct, 0), false);
 
         int index = 1;
 

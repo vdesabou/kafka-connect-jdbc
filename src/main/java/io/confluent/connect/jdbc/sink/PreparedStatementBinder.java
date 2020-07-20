@@ -57,7 +57,7 @@ public class PreparedStatementBinder implements StatementBinder {
   }
 
   @Override
-  public void bindRecord(SinkRecord record) throws SQLException {
+  public void bindRecord(SinkRecord record, boolean deleteEnabled) throws SQLException {
     final Struct valueStruct = (Struct) record.value();
     final boolean isDelete = isNull(valueStruct);
     // Assumption: the relevant SQL has placeholders for keyFieldNames first followed by
@@ -70,7 +70,9 @@ public class PreparedStatementBinder implements StatementBinder {
     int index = 1;
     if (isDelete) {
       index = bindKeyFields(record, index);
-      bindNonKeyFields(record, valueStruct, index);
+      if (!deleteEnabled) {
+        bindNonKeyFields(record, valueStruct, index);
+      }
     } else {
       switch (insertMode) {
         case INSERT:

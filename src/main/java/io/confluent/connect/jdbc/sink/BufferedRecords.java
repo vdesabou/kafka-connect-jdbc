@@ -155,7 +155,7 @@ public class BufferedRecords {
         );
       }
     }
-    
+
     // set deletesInBatch if schema value is not null
     if (isNull(record.value()) && config.deleteEnabled) {
       deletesInBatch = true;
@@ -177,9 +177,9 @@ public class BufferedRecords {
     log.debug("Flushing {} buffered records", records.size());
     for (SinkRecord record : records) {
       if (isNull(record.value()) && nonNull(deleteStatementBinder)) {
-        deleteStatementBinder.bindRecord(record);
+        deleteStatementBinder.bindRecord(record, true);
       } else {
-        updateStatementBinder.bindRecord(record);
+        updateStatementBinder.bindRecord(record, false);
       }
     }
     Optional<Long> totalUpdateCount = executeUpdates();
